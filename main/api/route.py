@@ -16,13 +16,14 @@ from flask import jsonify
 
 def search(idnumber,name):
     """查询用户信息"""
-    te=get_info(idnumber,name)
+    te=get_info(IDNumber=idnumber,input_name=name)
     print(te)
     if te['status']==False:
+        print("false")
         return falseReturn(msg=te['msg'])
     else:
-        print(te['data'])
         info=te['data']
+        print(info)
         return trueReturn(data=info)
 @api.route("/lq",methods=['POST'])
 def lq():
@@ -53,12 +54,17 @@ def yj():
     name = idnumber['studentid']
     idcard = idnumber['passwd']
     back_info = search(idcard, name)
+    print(idnumber)
     if back_info['status'] == False:
         return jsonify(back_info)
     else:
         info = back_info['data']
+        print(info.Address)
         status = info.Status
+
         if status == "1":  # 已经填写邮寄地址
+            print("test")
+            print(info.Address)
             return jsonify(falseReturn(msg="已选择邮寄:{}".format(info.Address), data=info.Address))
         elif status == "0":  # 已经领取
             return jsonify(falseReturn(msg="已经领取,领取序号为:{}".format(info.Number), data=info.Number))
@@ -69,9 +75,19 @@ def yj():
 @api.route("/upinfo",methods=['POST'])
 def upinfo():
     '''填写信息'''
+    info=request.get_json()
+    print(info)
+    print("1")
+    tel=info['tel']
+    Addressee=info['name']
+    diaodang=info['diaodang']
+    areaInfo=info['areaInfo']
+    address = info['address']
+    code = info['code']
+    IdNumber=info['IDnumber']
     try:
-        save_address(IDNumber="230622199407032050",Status="1",Address="黑龙江省大庆市肇源县茂兴镇",Addressee="戚开元",Tel="13359500305",
-                 Code="166514",Diaodang="0")
+        save_address(IDNumber=IdNumber,Status="1",Address=areaInfo,Addressee=Addressee,Tel=tel,
+                 Code=code,Diaodang=diaodang,addressinfo=address)
         return jsonify(trueReturn(msg="sucess"))
     except:
         return jsonify(falseReturn())

@@ -27,7 +27,7 @@ def change_info(IDNumber,status):
     Userinfo=User.query.filter_by(IDNumber=IDNumber).first()
     Userinfo.Status=status
     Userinfo.update()
-def save_address(IDNumber,Status,Address,Addressee,Tel,Code,Diaodang):
+def save_address(IDNumber,Status,Address,Addressee,Tel,Code,Diaodang,addressinfo):
     Userinfo = User.query.filter_by(IDNumber=IDNumber).first()
     Userinfo.Status=Status
     Userinfo.Address=Address
@@ -35,4 +35,5 @@ def save_address(IDNumber,Status,Address,Addressee,Tel,Code,Diaodang):
     Userinfo.Tel=Tel
     Userinfo.Code=Code
     Userinfo.Diaodang=Diaodang
+    Userinfo.addressinfo=addressinfo
     Userinfo.update()

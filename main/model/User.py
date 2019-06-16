@@ -20,7 +20,8 @@ class User(db.Model):
     Tel=db.Column(db.String(20),nullable=True,doc="手机号")
     Code=db.Column(db.String(20),nullable=True,doc="邮编")
     Diaodang=db.Column(db.String(20),nullable=True,doc="是否需要调档函")
-    def __init__(self,IDnumber,Name,Number,Status,Address,Addressee,Tel,Code,Diaodang):
+    addressinfo = db.Column(db.String(20), nullable=True, doc="详细地址")
+    def __init__(self,IDnumber,Name,Number,Status,Address,Addressee,Tel,Code,Diaodang,adressinfo):
         self.IDNumber=IDnumber
         self.Name=Name
         self.Number=Number
@@ -30,6 +31,7 @@ class User(db.Model):
         self.Tel=Tel
         self.Code=Code
         self.Diaodang=Diaodang
+        self.addressinfo=adressinfo
 
     def save(self):
         db.session.add(self)
