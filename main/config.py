@@ -10,7 +10,7 @@
 """
 class shuju():
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_DATABASE_URI='mysql+pymysql://yzb:945999685@localhost:3306/yzb'
+    SQLALCHEMY_DATABASE_URI='mysql+pymysql://syh:945999685@182.254.226.202:3306/syh'
 
     @staticmethod
     def init_app(app):
