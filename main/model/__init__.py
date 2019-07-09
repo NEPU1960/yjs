@@ -16,6 +16,7 @@ from .jiangpai import Jiangpai
 from .notice import Notice
 from .Score import Score
 from .picture import Picture
+from .News import News
 from datetime import *
 from ..common import trueReturn,falseReturn
 import time
@@ -78,6 +79,16 @@ def get_Score_by_school(school):
         if school in i.group:
             new_dict = {"ID": i.ID, "name": i.name, "result": i.result, "style": i.style}
             back_list.append(new_dict)
+    return back_list
+def get_news():
+    Newsinfo = News.query.filter_by().order_by(News.time).all()
+    back_list=[]
+    for i in Newsinfo:
+        back_list.append({"title":i.title,"time":i.time})
+    return back_list
+def get_text(title):
+    News_text=News.query.filter_by(title=title)
+    back_list={"title":i.title,"time":i.time,"text":i.text,"author":i.authoer}
     return back_list
 # def get_info(IDNumber,input_name):
 #     '''获取数据库用户信息'''

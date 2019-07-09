@@ -11,7 +11,7 @@
 from flask import request
 from . import api
 # from ..model import get_info,change_info,save_address,jinshuju_db
-from ..model import get_notice,get_jiangpai,get_Score_by_name,get_Score_by_school,get_Score_by_time,get_picture
+from ..model import get_notice,get_jiangpai,get_Score_by_name,get_Score_by_school,get_Score_by_time,get_picture,get_news,get_text
 from ..common import falseReturn,trueReturn
 from flask import jsonify
 import json
@@ -73,3 +73,12 @@ def yugao():
         return jsonify(falseReturn(data=''))
     else:
         return jsonify(trueReturn(data=back_info))
+@api.route("/title")
+def title():
+    print('title')
+    back_title=get_news()
+    return jsonify(trueReturn(data=back_title))
+@api.route("/title-text")
+def title_text():
+    back_text=get_text("")
+    return jsonify(trueReturn(data=back_text))
