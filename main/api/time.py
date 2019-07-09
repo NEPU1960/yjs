@@ -8,13 +8,17 @@
 @time: 2019/7/8 22:50
 @desc:
 '''
-from datetime import *
-dat=date.today()
-day = datetime.strptime('{} 23:45:35'.format(dat), '%Y-%m-%d %H:%M:%S')
-print(dat)
-print(day)
-day1=str('{} 15:45:35'.format(dat))
-if day<datetime.now():
-    print('已经超时')
-else:
-    print('时间未到')
+import datetime
+import time
+from datetime import datetime
+year='年'
+month='月'
+day='日'
+cc=time.localtime(time.time())
+today=str(cc.tm_year)+year+str("0"+str(cc.tm_mon))+month+str(cc.tm_mday)+day
+print(today)
+print()
+print(datetime.today())
+# day = datetime.strptime('{0} {1}'.format(date,i.time), '%Y-%m-%d %H:%M')
+time=datetime.today()
+day = datetime.strptime(str(time), '%Y-%m-%d %H:%M')

@@ -8,17 +8,19 @@
 @time: 2019/6/3 0003 16:16
 @desc:
 """
-def trueReturn(msg='',data=''):
+def trueReturn(msg='',data='',type=''):
     return {
         "status": True,
         "data": data,
-        "msg": msg
+        "msg": msg,
+        "type":type
     }
 
 
-def falseReturn(msg='',data=''):
+def falseReturn(msg='',data='',type=''):
     return {
         "status": False,
         "data": data,
-        "msg": msg
+        "msg": msg,
+        "type":type
     }
