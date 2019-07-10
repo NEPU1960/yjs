@@ -16,13 +16,15 @@ class Score(db.Model):
     result=db.Column(db.String(20),nullable=True,doc='结果')
     style = db.Column(db.String(20), nullable=True, doc='成绩类型')
     time = db.Column(db.String(20), nullable=True, doc='比赛日期')
+    text = db.Column(db.String(20), nullable=True, doc='备注')
 
-    def __init__(self,ID,name,result,style,time):
+    def __init__(self,ID,name,result,style,time,text):
         self.ID = ID
         self.name = name
         self.result = result
         self.style = style
         self.time = time
+        self.text = text
 
     def save(self):
         db.session.add(self)

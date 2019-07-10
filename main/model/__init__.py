@@ -20,12 +20,17 @@ from .News import News
 from datetime import *
 from ..common import trueReturn,falseReturn
 import time
+import random
+import json
 year='年'
 month='月'
 day='日'
 cc=time.localtime(time.time())
 today=str(cc.tm_year)+year+str(cc.tm_mon)+month+str(cc.tm_mday)+day
 print(today)
+def make_id():
+    number=random.randint(0,3000)
+    return number
 def get_picture():
     back_info=Picture.query.filter_by().order_by(Picture.ID).all()
     back_list=[]
@@ -33,7 +38,7 @@ def get_picture():
         back_list.append({"ID":i.ID,"url":i.url,"type": 'image'})
     return back_list
 def get_notice(date):
-    '''获取比赛预告'''
+    '''获取当日比赛预告'''
     Noticeinfo=Notice.query.filter_by(date=date).order_by(Notice.time).all()
     back_list=[]
     for i in Noticeinfo:
@@ -42,7 +47,7 @@ def get_notice(date):
         # day = datetime.strptime('{0} {1}'.format(date,i.time), '%Y-%m-%d %H:%M')#超时不显示
         # print(day)
         # if day>datetime.now():
-        new_dict={"ID":i.ID,"time":i.time, "name":i.name, "local":i.local, "group":i.group, "date":i.date}
+        new_dict={"ID":i.ID,"time":i.time, "name":i.name, "local":i.local, "group":json.loads(i.group), "date":i.date}
         back_list.append(new_dict)
         # else:
         #     pass
@@ -65,6 +70,18 @@ def get_Score_by_name(name):
             new_dict = {"ID": i.ID, "name": i.name, "result": i.result, "style": i.style}
             back_list.append(new_dict)
     return back_list
+def get_score():
+    '''获取成绩列表'''
+    Scoreinfo = Score.query.filter_by().order_by(Score.time).all()
+    back_lict=[]
+    for i in Scoreinfo:
+        back_lict.append({"ID":i.ID,"name":i.name,"style":i.style,"time":i.time})
+    return back_lict
+def get_score_info(ID):
+    '''根据项目id获得信息'''
+    Scoreinfo = Score.query.filter_by(ID=ID).first()
+    back=json.loads(Scoreinfo.result)
+    return back
 def get_Score_by_time(time):
     Noticeinfo = Score.query.filter_by(time=time).order_by(Notice.time).all()
     back_list = []
@@ -87,9 +104,36 @@ def get_news():
         back_list.append({"title":i.title,"time":i.time})
     return back_list
 def get_text(title):
-    News_text=News.query.filter_by(title=title)
-    back_list={"title":i.title,"time":i.time,"text":i.text,"author":i.authoer}
+    News_text=News.query.filter_by(title=title).first()
+    back_list={"title":News_text.title,"time":News_text.time,"text":News_text.text,"author":News_text.author}
     return back_list
+def check_id(info,noticetime,name,local,group,noticedate):
+    if info != None:
+        update(noticetime,name,local,group,noticedate)
+    else:
+        pass
+def update(noticetime,name,local,group,noticedate):
+    ID=make_id()
+    print(ID)
+    info=Notice.query.filter_by(ID=ID).first()
+    print(info)
+    check_id(info,noticetime,name,local,group,noticedate)
+    notice_data=Notice(ID=ID, time=noticetime, name=name, local=local, group=group, date=noticedate)
+    notice_data.save()
+def update_score(name,result,style,scoretime,text):
+    ID=make_id()
+    print(ID)
+    info=Score.query.filter_by(ID=ID).first()
+    print(info)
+    check_id(info,name,result,style,scoretime,text)
+    notice_data=Score(ID=ID, name=name,result=result, style=style, time=scoretime, text=text)
+    notice_data.save()
+def get_notice_id(ID):
+    Noticeinfo = Notice.query.filter_by(ID=ID).first()
+    new_dict = json.loads(Noticeinfo.group)
+    return new_dict
+        # else:
+        #     pass
 # def get_info(IDNumber,input_name):
 #     '''获取数据库用户信息'''
 #     Userinfo=User.query.filter_by(IDNumber=IDNumber).first()
